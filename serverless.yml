@@ -38,7 +38,7 @@ plugins:
   - serverless-plugin-typescript
   - serverless-dynamodb
   - serverless-offline
-  - serverless-plugin-scripts
+  # - serverless-plugin-scripts
 
 package:
   individually: true
@@ -64,19 +64,19 @@ custom:
 # functions
 functions:
   hello:
-    handler: src/functions/hello.handler
+    handler: src/api/Others/hello.handler
     events: # The events that trigger this function
       - http: 
           path: awsnodetypescriptsetup/hello
           method: get
   goodbye:
-    handler: src/functions/goodbye.handler
+    handler: src/api/Others/goodbye.handler
     events:
       - http: 
           path: awsnodetypescriptsetup/goodbye
           method: post
   question:
-    handler: src/functions/question.handler
+    handler: src/api/Others/question.handler
     dependsOn: SNSHelloEvent
     events:
       - sns:

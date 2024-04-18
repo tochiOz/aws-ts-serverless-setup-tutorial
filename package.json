@@ -4,7 +4,7 @@
   "description": "AWS Serverless setup with Typescript Functions",
   "main": "index.js",
   "repository": "git@github.com:tochiOz/aws-ts-serverless-setup-tutorial.git",
-  "author": "Leonardo Roese",
+  "author": "Tochukwu Ozurumba",
   "license": "MIT",
   "scripts": {
     "dev": "sls offline -s dev",
@@ -31,6 +31,7 @@
     "nodemon": "^3.1.0",
     "prettier": "^3.2.5",
     "serverless": "^3.38.0",
+    "serverless-dynamodb": "^0.2.51",
     "serverless-offline": "^13.3.3",
     "serverless-plugin-typescript": "^2.1.5",
     "ts-jest": "^29.1.2",
@@ -39,6 +40,8 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.556.0",
+    "@aws-sdk/lib-dynamodb": "^3.556.0",
     "aws-lambda": "^1.0.7",
     "commander": "^12.0.0",
     "cross-env": "^7.0.3",
