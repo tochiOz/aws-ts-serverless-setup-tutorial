@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.137",
+    "@types/commander": "^2.12.2",
     "@types/dotenv-safe": "^8.1.6",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.7",
@@ -39,6 +40,7 @@
   },
   "dependencies": {
     "aws-lambda": "^1.0.7",
+    "commander": "^12.0.0",
     "cross-env": "^7.0.3",
     "dotenv-safe": "^9.1.0"
   }
