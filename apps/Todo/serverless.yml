@@ -1,0 +1,149 @@
+service: awsnodetypescriptsetup
+
+frameworkVersion: "3"
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  environment:
+    TWILIO_ACCOUNT_SID: YOUR-TWILIO-ACCOUNT-SID-HERE
+    TWILIO_AUTH_TOKEN: YOUR-TWILIO-AUTH-TOKEN-HERE
+    TWILIO_PHONE_NUMBER: YOUR-TWILIO-PHONE-NUMBER-HERE
+    DEBUG: '*'
+    NODE_ENV: ${self:provider.stage}
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+  httpApi:
+    cors: true
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${aws:region}:*"
+        - Effect: Allow
+          Action:
+            - s3:*
+          Resource: "arn:aws:s3:${aws:region}:*"
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-dynamodb
+  - serverless-offline
+  # - serverless-plugin-scripts
+
+package:
+  individually: true
+
+custom:
+    defaultStage: ${opt:stage, 'dev'}
+    # webpack:
+    #     webpackConfig: ./webpack.config.js
+    #     includeModules: true
+    dynamodb:
+        stages:
+            - dev
+        start:
+            port: 8000
+            inMemory: true
+            migrate: true
+        migration:
+            dir: offline/db/migrations
+    scripts:
+        hooks:
+            'aws:common:validate:validate': npm run test
+
+# functions
+functions:
+  hello:
+    handler: src/api/Others/hello.handler
+    events: # The events that trigger this function
+      - http: 
+          path: awsnodetypescriptsetup/hello
+          method: get
+  goodbye:
+    handler: src/api/Others/goodbye.handler
+    events:
+      - http: 
+          path: awsnodetypescriptsetup/goodbye
+          method: post
+  question:
+    handler: src/api/Others/question.handler
+    dependsOn: SNSHelloEvent
+    events:
+      - sns:
+          arn: !Ref SNSHelloEvent
+          topicName: hello-event
+  create:
+    handler: todos/create.create
+    events:
+      - http:
+          path: todos
+          method: post
+          cors: true
+
+  list:
+    handler: todos/list.list
+    events:
+      - http:
+          path: todos
+          method: get
+          cors: true
+
+  get:
+    handler: todos/get.get
+    events:
+      - http:
+          path: todos/{id}
+          method: get
+          cors: true
+
+  update:
+    handler: todos/update.update
+    events:
+      - http:
+          path: todos/{id}
+          method: put
+          cors: true
+
+  delete:
+    handler: todos/delete.delete
+    events:
+      - http:
+          path: todos/{id}
+          method: delete
+          cors: true
+
+# Resources your functions use
+resources:
+  Resources:
+    # SNS Topics
+    SNSHelloEvent:
+      Type: AWS::SNS::Topic
+      Properties:
+        DisplayName: Hello Event Topic
+        TopicName: hello-event
+    TodosDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:service}-${opt:stage, self:provider.stage}-todos

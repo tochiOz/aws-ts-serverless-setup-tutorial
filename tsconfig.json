@@ -1,30 +1,31 @@
 {
-  "compilerOptions": {                              /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
-    "lib": ["dom", "esnext"],                                   /* Specify library files to be included in the compilation. */
-    "allowJs": true,                             /* Allow javascript files to be compiled. */
-    "removeComments": true,                      /* Do not emit comments to output. */
+  "compilerOptions": { /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
+    "lib": [
+      "dom",
+      "esnext"
+    ], /* Specify library files to be included in the compilation. */
+    "allowJs": true, /* Allow javascript files to be compiled. */
+    "removeComments": true, /* Do not emit comments to output. */
     "sourceMap": true,
-    "baseUrl": ".",                             /* Base directory to resolve non-absolute module names. */
-    "paths": {                                   /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
-        "@src/*": ["src/*"]
-    },                                 
-    "experimentalDecorators": true,              /* Enables experimental support for ES7 decorators. */
-    "emitDecoratorMetadata": true,               /* Enables experimental support for emitting type metadata for decorators. */
-    "target": "es2018",              // Or a target appropriate to your environment
-    "module": "commonjs",            // CommonJS modules for Node.js compatibility
-    "moduleResolution": "node",      // Use Node.js-style module resolution
-    "esModuleInterop": true,         // Enables default imports from modules with no default export
-    "resolveJsonModule": true,       // To include JSON files if needed
-    "outDir": "./dist",              // Output directory for compiled files
-    "strict": true,                  // Enable all strict type-checking options
-    "noImplicitAny": true,           // Raise error on expressions and declarations with an implied 'any' type
-    "strictNullChecks": true,        // Enable strict null checks
-    "skipLibCheck": true,            // Skip type checking of all declaration files (*.d.ts)
+    "baseUrl": ".", /* Base directory to resolve non-absolute module names. */
+    "experimentalDecorators": true, /* Enables experimental support for ES7 decorators. */
+    "emitDecoratorMetadata": true, /* Enables experimental support for emitting type metadata for decorators. */
+    "target": "es2018", // Or a target appropriate to your environment
+    "module": "commonjs", // CommonJS modules for Node.js compatibility
+    "moduleResolution": "node", // Use Node.js-style module resolution
+    "esModuleInterop": true, // Enables default imports from modules with no default export
+    "resolveJsonModule": true, // To include JSON files if needed
+    "outDir": "./dist", // Output directory for compiled files
+    "strict": true, // Enable all strict type-checking options
+    "noImplicitAny": true, // Raise error on expressions and declarations with an implied 'any' type
+    "strictNullChecks": true, // Enable strict null checks
+    "skipLibCheck": true, // Skip type checking of all declaration files (*.d.ts)
     "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "src/**/*"  // Adjust this path to where your source files are located
-  ],
+  "awesomeTypescriptLoaderOptions": {
+    "transpileOnly": true,
+    "sourceMap": true
+  },
   "exclude": [
     "node_modules",
     "**/*.spec.ts"
