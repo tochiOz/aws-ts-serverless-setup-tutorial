@@ -1,4 +1,4 @@
-service: example-db
+service: aws-app-setup-db
 
 frameworkVersion: "3"
 
@@ -22,27 +22,14 @@ provider:
 
 resources:
   Resources:
-    comments:
+    todos:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.stackName}-comments
+        TableName: ${self:service}-${opt:stage, self:provider.stage}-todos
         AttributeDefinitions:
-          - AttributeName: postId
-            AttributeType: S
-          - AttributeName: commentId
-            AttributeType: S
-          - AttributeName: authorId
+          - AttributeName: id
             AttributeType: S
         KeySchema:
-          - AttributeName: postId
+          - AttributeName: id
             KeyType: HASH
-          - AttributeName: commentId
-            KeyType: RANGE
-        GlobalSecondaryIndexes:
-          - IndexName: gsiAuthorIdIndex
-            KeySchema:
-              - AttributeName: authorId
-                KeyType: HASH
-            Projection:
-              ProjectionType: "KEYS_ONLY"
         BillingMode: PAY_PER_REQUEST
