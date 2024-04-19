@@ -4,10 +4,14 @@ This repository shows a simple way to demonstrate serverless with microservices 
 
 # Setup
 1. Setup AWS & Serverless, make sure you have an .aws directory in your user home folder that contains your credentials and config.
-2. Duplicate the .env.template file based on the stage and set the variable values:
+
+2. create a symkink
+    ln -s /c/Users/Public/Documents/aws-ts-serverless-setup/apps/_shared /c/Users/Public/Documents/aws-ts-serverless-setup/apps/Others/shared
+
+3. Duplicate the .env.template file based on the stage and set the variable values:
     ```sh
-    cp .env.template .env.<stage>
-    vim .env.<stage>
+    cp .env.template .env.dev
+    vim .env.dev
     ```
     for example:
     ```sh
@@ -15,12 +19,12 @@ This repository shows a simple way to demonstrate serverless with microservices 
     vim .env.personal
     ```
 
-3. Install dependencies in the root folder:
+4. Install dependencies in the root folder:
     ```sh
     npm i
     ```
 
-4. Install dependencies for each app in the apps folder:
+5. Install dependencies for each app in the apps folder:
     ```sh
     cd apps/<app_name>
     npm i
