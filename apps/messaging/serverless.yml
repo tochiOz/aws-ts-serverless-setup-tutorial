@@ -1,4 +1,4 @@
-service: db
+service: messaging
 
 frameworkVersion: "3"
 
@@ -22,14 +22,15 @@ provider:
 
 resources:
   Resources:
-    todos:
-      Type: AWS::DynamoDB::Table
+    OthersSNSTopic:
+      Type: AWS::SNS::Topic
       Properties:
-        TableName: ${self:service}-${opt:stage, self:provider.stage}-todos
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        BillingMode: PAY_PER_REQUEST
+        TopicName: ${self:provider.region}.${env:ACCOUNT_ID}.sns.${self:service}
+
+  Outputs:
+    OthersSNSTopicArn:
+      Description: "ARN of the SNS topic"
+      Value:
+        Ref: OthersSNSTopic
+      Export:
+        Name: ${self:provider.region}.${env:ACCOUNT_ID}.sns.${self:service}
