@@ -1,0 +1,114 @@
+{
+  "service": {
+    "service": "db",
+    "serviceObject": {
+      "name": "db"
+    },
+    "provider": {
+      "name": "aws",
+      "stage": "dev",
+      "region": "us-east-1",
+      "memorySize": 128,
+      "timeout": 10,
+      "versionFunctions": false,
+      "stackName": "dev-db",
+      "environment": {
+        "STAGE": "dev",
+        "REGION": "us-east-1",
+        "ACCOUNT_ID": "096107330891"
+      },
+      "stackTags": {
+        "SERVICE": "db",
+        "REGION": "us-east-1"
+      },
+      "deploymentBucket": "s3-dev-us-east-1.096107330891.deploys.db",
+      "deploymentBucketObject": {
+        "name": "s3-dev-us-east-1.096107330891.deploys.db"
+      },
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "todos": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+              "TableName": "dev-todos",
+              "AttributeDefinitions": [
+                {
+                  "AttributeName": "id",
+                  "AttributeType": "S"
+                }
+              ],
+              "KeySchema": [
+                {
+                  "AttributeName": "id",
+                  "KeyType": "HASH"
+                }
+              ],
+              "BillingMode": "PAY_PER_REQUEST"
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": "s3-dev-us-east-1.096107330891.deploys.db",
+            "Export": {
+              "Name": "sls-db-dev-ServerlessDeploymentBucketName"
+            }
+          }
+        }
+      }
+    },
+    "pluginsData": {},
+    "functions": {},
+    "resources": {
+      "Resources": {
+        "todos": {
+          "Type": "AWS::DynamoDB::Table",
+          "Properties": {
+            "TableName": "dev-todos",
+            "AttributeDefinitions": [
+              {
+                "AttributeName": "id",
+                "AttributeType": "S"
+              }
+            ],
+            "KeySchema": [
+              {
+                "AttributeName": "id",
+                "KeyType": "HASH"
+              }
+            ],
+            "BillingMode": "PAY_PER_REQUEST"
+          }
+        }
+      },
+      "Outputs": {}
+    },
+    "configValidationMode": "warn",
+    "serviceFilename": "serverless.yml",
+    "initialServerlessConfig": {
+      "org": "tochinny",
+      "app": "awssetup",
+      "service": "db",
+      "frameworkVersion": "3",
+      "provider": {
+        "$ref": "$[\"service\"][\"provider\"]"
+      },
+      "resources": {
+        "$ref": "$[\"service\"][\"resources\"]"
+      }
+    },
+    "app": "awssetup",
+    "org": "tochinny",
+    "layers": {},
+    "isDashboardMonitoringPreconfigured": true,
+    "isDashboardAppPreconfigured": true,
+    "orgUid": "646c704a-4bf1-42da-b55b-5fd78d82b8f6",
+    "appUid": "9yJC6T27Y766cc0Z4R"
+  },
+  "package": {
+    "artifactDirectoryName": "serverless/db/dev/1713814757419-2024-04-22T19:39:17.419Z",
+    "artifact": ""
+  }
+}

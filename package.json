@@ -7,7 +7,9 @@
   "author": "Tochukwu Ozurumba",
   "license": "MIT",
   "scripts": {
+    "load:env": "set STAGE=dev && node load-env.js",
     "deploy": "export $(grep -v '^#' .env.$npm_config_stage | xargs -d '\n') && node scripts/deploy.js --application=$npm_config_application --stage=$npm_config_stage",
+    "deploy:win": "cross-env STAGE=$npm_config_stage APPLICATION=$npm_config_application node scripts/deploy.js",
     "offline": "export $(grep -v '^#' .env.$npm_config_stage | xargs -d '\n') && cd apps/$npm_config_application && rm -rf .build && serverless offline",
     "test": "export $(grep -v '^#' .env.$npm_config_stage | xargs -d '\n') && mocha -r ts-node/register **/__tests__/**/* --timeout 30000",
     "local": "sls offline -s dev",

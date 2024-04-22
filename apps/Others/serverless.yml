@@ -1,7 +1,7 @@
+org: tochinny
+app: awssetup
 service: others
-
 frameworkVersion: "3"
-useDotenv: true
 
 provider:
   name: aws
@@ -9,35 +9,20 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
   environment:
-    TWILIO_ACCOUNT_SID: YOUR-TWILIO-ACCOUNT-SID-HERE
-    TWILIO_AUTH_TOKEN: YOUR-TWILIO-AUTH-TOKEN-HERE
-    TWILIO_PHONE_NUMBER: YOUR-TWILIO-PHONE-NUMBER-HERE
-    DEBUG: '*'
+    STAGE: ${self:provider.stage}
+    REGION: ${self:provider.region}
+    ACCOUNT_ID: ${env:ACCOUNT_ID}
     NODE_ENV: ${self:provider.stage}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
   httpApi:
     cors: true
-  iam:
-    role:
-      statements:
-        - Effect: Allow
-          Action:
-            - dynamodb:Query
-            - dynamodb:Scan
-            - dynamodb:GetItem
-            - dynamodb:PutItem
-            - dynamodb:UpdateItem
-            - dynamodb:DeleteItem
-          Resource: "arn:aws:dynamodb:${aws:region}:*"
-        - Effect: Allow
-          Action:
-            - s3:*
-          Resource: "arn:aws:s3:${aws:region}:*"
+  deploymentBucket:
+    name: s3-${self:provider.stage}-${self:provider.region}.${env:ACCOUNT_ID}.deploys.${self:service}
 
 plugins:
   - serverless-plugin-typescript
   # - serverless-dynamodb
-  # - serverless-offline
+  - serverless-offline
   # - serverless-plugin-scripts
 
 custom:
@@ -54,14 +39,14 @@ custom:
   #         migrate: true
   #     migration:
   #         dir: offline/db/migrations
-  scripts:
-    hooks:
-      'aws:common:validate:validate': npm run test
-  serverless-offline:
-    ignoreJWTSignature: true
-    httpPort: 3001
-    websocketPort: 4001
-    lambdaPort: 5001
+  # scripts:
+  #   hooks:
+  #     'aws:common:validate:validate': npm run test
+  # serverless-offline:
+  #   ignoreJWTSignature: true
+  #   httpPort: 3001
+  #   websocketPort: 4001
+  #   lambdaPort: 5001
 
 # functions
 functions:
