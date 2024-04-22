@@ -63,25 +63,6 @@ custom:
 
 # functions
 functions:
-  hello:
-    handler: src/api/Others/hello.handler
-    events: # The events that trigger this function
-      - http: 
-          path: awsnodetypescriptsetup/hello
-          method: get
-  goodbye:
-    handler: src/api/Others/goodbye.handler
-    events:
-      - http: 
-          path: awsnodetypescriptsetup/goodbye
-          method: post
-  question:
-    handler: src/api/Others/question.handler
-    dependsOn: SNSHelloEvent
-    events:
-      - sns:
-          arn: !Ref SNSHelloEvent
-          topicName: hello-event
   create:
     handler: todos/create.create
     events:
@@ -121,29 +102,3 @@ functions:
           path: todos/{id}
           method: delete
           cors: true
-
-# Resources your functions use
-resources:
-  Resources:
-    # SNS Topics
-    SNSHelloEvent:
-      Type: AWS::SNS::Topic
-      Properties:
-        DisplayName: Hello Event Topic
-        TopicName: hello-event
-    TodosDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
-      DeletionPolicy: Retain
-      Properties:
-        AttributeDefinitions:
-          -
-            AttributeName: id
-            AttributeType: S
-        KeySchema:
-          -
-            AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-        TableName: ${self:service}-${opt:stage, self:provider.stage}-todos

@@ -65,7 +65,7 @@ shell.cd('apps');
 // }
 
 // Define the applications to deploy
-const APPS = ['db', 'messaging', 'others']; // Example application directories
+const APPS = ['db', 'welcome']; // Example application directories
 const appsToDeploy = options.application ? [options.application] : APPS;
 
 // Deploy each application
