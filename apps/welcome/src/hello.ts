@@ -1,6 +1,11 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable import/prefer-default-export */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
-export const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+export const handler = async (
+  _event: APIGatewayProxyEvent,
+): Promise<APIGatewayProxyResult> => {
   try {
     const response = {
       statusCode: 200,
