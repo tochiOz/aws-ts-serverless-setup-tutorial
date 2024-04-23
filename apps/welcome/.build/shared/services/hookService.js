@@ -36,35 +36,56 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-/* eslint-disable import/no-import-module-exports */
-/* eslint-disable import/no-unresolved */
-/* eslint-disable import/prefer-default-export */
-/* eslint-disable prettier/prettier */
-var yup = require("yup");
-var hookService_1 = require("../shared/services/hookService");
-var GoodbyeSchema = yup.object().shape({
-    name: yup.string().required(),
-});
-var handler = function (event) { return __awaiter(void 0, void 0, void 0, function () {
-    var parsedBody;
-    return __generator(this, function (_a) {
-        try {
-            parsedBody = JSON.parse(event.body || '');
-            console.log("parsedBody: ".concat(parsedBody));
-            return [2 /*return*/, {
-                    statusCode: 200,
-                    body: "Goodbye ".concat(parsedBody === null || parsedBody === void 0 ? void 0 : parsedBody.name),
-                }];
+exports.hooksWithValidation = exports.withHooks = void 0;
+var lambda_hooks_1 = require("lambda-hooks");
+var configureHooks = function (config) { return (0, lambda_hooks_1.useHooks)({
+    before: [lambda_hooks_1.logEvent, lambda_hooks_1.parseEvent, function (state) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, validateEvent(state, config)];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        }); }); }],
+    after: [],
+    onError: [lambda_hooks_1.handleUnexpectedError],
+}, { config: config }); };
+var validateEvent = function (state_1, _a) { return __awaiter(void 0, [state_1, _a], void 0, function (state, _b) {
+    var bodySchema = _b.bodySchema, pathSchema = _b.pathSchema;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0:
+                if (!bodySchema) return [3 /*break*/, 2];
+                return [4 /*yield*/, validateSchema('body', state.event.body, bodySchema)];
+            case 1:
+                _c.sent();
+                _c.label = 2;
+            case 2:
+                if (!pathSchema) return [3 /*break*/, 4];
+                return [4 /*yield*/, validateSchema('path parameters', state.event.pathParameters, pathSchema)];
+            case 3:
+                _c.sent();
+                _c.label = 4;
+            case 4: return [2 /*return*/, state];
         }
-        catch (err) {
-            console.error(JSON.stringify(err));
-            return [2 /*return*/, {
-                    statusCode: 500,
-                    body: 'An error occured',
-                }];
-        }
-        return [2 /*return*/];
     });
 }); };
-exports.handler = (0, hookService_1.hooksWithValidation)({ bodySchema: GoodbyeSchema })(handler);
-//# sourceMappingURL=goodbye.js.map
+var validateSchema = function (name, data, schema) { return __awaiter(void 0, void 0, void 0, function () {
+    var error_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, schema.validate(data, { strict: true })];
+            case 1:
+                _a.sent();
+                return [3 /*break*/, 3];
+            case 2:
+                error_1 = _a.sent();
+                throw new Error("Validation error for ".concat(name, ": ").concat(error_1.message));
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.withHooks = configureHooks({});
+var hooksWithValidation = function (config) { return configureHooks(config); };
+exports.hooksWithValidation = hooksWithValidation;
+//# sourceMappingURL=hookService.js.map

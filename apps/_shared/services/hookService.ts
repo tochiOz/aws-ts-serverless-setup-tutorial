@@ -1,3 +1,4 @@
+// note install Yup when using this
 import { useHooks, logEvent, parseEvent, handleUnexpectedError, State } from 'lambda-hooks';
 import { ObjectSchema } from 'yup';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
